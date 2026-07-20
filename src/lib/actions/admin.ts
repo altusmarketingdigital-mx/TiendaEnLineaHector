@@ -1,9 +1,10 @@
 "use server";
 
 import { db } from '@/lib/db';
-import { products, inventory, hardwareCompatibility } from '@/db/schema';
+import { products, inventory, hardwareCompatibility, users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
+import bcryptjs from 'bcryptjs';
 
 // ─────────────────────────────────────────────────────────────
 // PRODUCTS CRUD
@@ -103,3 +104,32 @@ export async function deleteCompatibilityRule(id: number) {
   revalidatePath('/dashboard/builder-rules');
   return { success: true };
 }
+
+// ─────────────────────────────────────────────────────────────
+// CUSTOMERS (USERS) CRUD
+// ─────────────────────────────────────────────────────────────
+
+export async function createCustomer(data: { name: string; email: string; password?: string }) {
+  try {
+    const existing = await db.select().from(users).where(eq(users.email, data.email)).limit(1);
+    if (existing.length > 0) {
+      return { success: false, error: 'El correo ya está registrado.' };
+    }
+
+    const rawPassword = data.password || 'cliente123';
+    const passwordHash = await bcryptjs.hash(rawPassword, 10);
+
+    await db.insert(users).values({
+      name: data.name,
+      email: data.email,
+      passwordHash,
+      role: 'CLIENTE',
+    });
+
+    revalidatePath('/dashboard/customers');
+    return { success: true, defaultPassword: rawPassword };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Error al crear cliente' };
+  }
+}
+

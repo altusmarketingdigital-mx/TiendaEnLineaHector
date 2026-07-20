@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { LayoutDashboard, Truck, Settings } from 'lucide-react';
+import { LayoutDashboard, Truck, Settings, Package, Users, MonitorPlay } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,11 +16,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-1">
               <Link href="/dashboard" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground">
                 <LayoutDashboard className="h-4 w-4" />
-                Dashboard
+                Dashboard General
+              </Link>
+              <Link href="/dashboard/catalog" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground">
+                <Package className="h-4 w-4" />
+                Catálogo e Inventario
+              </Link>
+              <Link href="/dashboard/customers" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground">
+                <Users className="h-4 w-4" />
+                Gestión de Clientes
               </Link>
               <Link href="/shipments" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground">
                 <Truck className="h-4 w-4" />
                 Control de Envíos
+              </Link>
+              <div className="my-2 border-t border-border"></div>
+              <Link href="/pos" target="_blank" className="flex items-center gap-3 rounded-lg px-3 py-2 text-primary font-bold transition-all hover:bg-primary/10">
+                <MonitorPlay className="h-4 w-4" />
+                Ventas en Piso (POS)
               </Link>
             </nav>
           </div>
