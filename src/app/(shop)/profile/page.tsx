@@ -48,6 +48,32 @@ export default async function ProfilePage() {
         </div>
       </div>
 
+      {/* Admin Tools Section */}
+      {role === 'ADMINISTRADOR' && (
+        <div className="mb-10">
+          <h2 className="text-2xl font-extrabold tracking-tight mb-4 flex items-center gap-3">
+            <Monitor className="h-6 w-6 text-[#ff7a00]" /> Panel de Administrador
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a href="/dashboard/catalog" className="bg-white border-2 border-border p-6 rounded-2xl flex flex-col items-center justify-center text-center hover:border-[#ff7a00] hover:shadow-md transition-all group">
+              <Package className="h-10 w-10 text-muted-foreground group-hover:text-[#ff7a00] mb-3 transition-colors" />
+              <h3 className="font-bold text-lg mb-1">Registro de Inventario</h3>
+              <p className="text-xs text-muted-foreground">Gestionar productos y stock</p>
+            </a>
+            <a href="/dashboard/customers" className="bg-white border-2 border-border p-6 rounded-2xl flex flex-col items-center justify-center text-center hover:border-[#ff7a00] hover:shadow-md transition-all group">
+              <User className="h-10 w-10 text-muted-foreground group-hover:text-[#ff7a00] mb-3 transition-colors" />
+              <h3 className="font-bold text-lg mb-1">Catálogo de Clientes</h3>
+              <p className="text-xs text-muted-foreground">Ver y registrar usuarios</p>
+            </a>
+            <a href="/pos" className="bg-white border-2 border-border p-6 rounded-2xl flex flex-col items-center justify-center text-center hover:border-[#ff7a00] hover:shadow-md transition-all group">
+              <Monitor className="h-10 w-10 text-muted-foreground group-hover:text-[#ff7a00] mb-3 transition-colors" />
+              <h3 className="font-bold text-lg mb-1">Ventas en Piso</h3>
+              <p className="text-xs text-muted-foreground">Generar nueva orden POS</p>
+            </a>
+          </div>
+        </div>
+      )}
+
       {/* Order History */}
       <div>
         <h2 className="text-2xl font-extrabold tracking-tight mb-6 flex items-center gap-3">
