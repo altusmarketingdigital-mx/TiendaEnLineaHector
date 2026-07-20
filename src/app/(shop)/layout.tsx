@@ -44,18 +44,18 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           {/* User & Cart */}
-          <div className="flex items-center gap-6 shrink-0">
-            <Link href="/profile" className="flex items-center gap-2 text-secondary hover:text-primary transition-colors group">
+          <div className="flex items-center gap-6 shrink-0 relative z-50">
+            <Link href="/profile" className="flex items-center gap-2 text-secondary hover:text-primary transition-colors group relative z-50 cursor-pointer">
               <div className="bg-muted p-2 rounded-full group-hover:bg-primary/10 transition-colors">
                 <User className="h-5 w-5" />
               </div>
               <div className="hidden lg:flex flex-col text-xs">
                 <span className="text-muted-foreground">Bienvenido</span>
-                <span className="font-bold text-sm">Mi Cuenta</span>
+                <span className="font-bold text-sm text-primary">Mi Cuenta</span>
               </div>
             </Link>
             
-            <Link href="/cart" className="flex items-center gap-2 text-secondary hover:text-primary transition-colors group relative">
+            <Link href="/cart" className="flex items-center gap-2 text-secondary hover:text-primary transition-colors group relative z-50 cursor-pointer">
               <div className="bg-muted p-2 rounded-full group-hover:bg-primary/10 transition-colors">
                 <ShoppingCart className="h-5 w-5" />
                 <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center border border-white">
