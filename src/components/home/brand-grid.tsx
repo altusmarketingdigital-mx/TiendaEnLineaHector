@@ -1,15 +1,19 @@
+"use client";
+
 import React from 'react';
 
 const brands = [
-  { name: 'NVIDIA', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg', color: 'hover:border-[#76b900]' },
-  { name: 'AMD', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/AMD_Logo.svg', color: 'hover:border-[#ed1c24]' },
-  { name: 'INTEL', logo: 'https://cdn.worldvectorlogo.com/logos/intel-3.svg', color: 'hover:border-[#0071c5]' },
-  { name: 'ASUS', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2e/ASUS_Logo.svg', color: 'hover:border-[#00539b]' },
-  { name: 'CORSAIR', logo: 'https://cdn.worldvectorlogo.com/logos/corsair-1.svg', color: 'hover:border-[#ffcc00]' },
-  { name: 'MSI', logo: 'https://cdn.worldvectorlogo.com/logos/msi-3.svg', color: 'hover:border-[#ed1c24]' }
+  { name: 'NVIDIA', logo: 'https://cdn.simpleicons.org/nvidia/76b900', color: 'hover:border-[#76b900]' },
+  { name: 'AMD', logo: 'https://cdn.simpleicons.org/amd/ed1c24', color: 'hover:border-[#ed1c24]' },
+  { name: 'INTEL', logo: 'https://cdn.simpleicons.org/intel/0071c5', color: 'hover:border-[#0071c5]' },
+  { name: 'ASUS', logo: 'https://cdn.simpleicons.org/asus/00539b', color: 'hover:border-[#00539b]' },
+  { name: 'CORSAIR', logo: 'https://cdn.simpleicons.org/corsair/ffcc00', color: 'hover:border-[#ffcc00]' },
+  { name: 'MSI', logo: 'https://cdn.simpleicons.org/msi/ed1c24', fallback: 'https://logo.clearbit.com/msi.com', color: 'hover:border-[#ed1c24]' }
 ];
 
 export default function BrandGrid() {
+  const [imgErrors, setImgErrors] = React.useState<Record<string, boolean>>({});
+
   return (
     <div className="mb-12">
       <h2 className="text-2xl font-extrabold text-secondary mb-6 border-b border-border pb-2">Encuentra solo las mejores marcas</h2>
@@ -20,8 +24,9 @@ export default function BrandGrid() {
             className={`flex items-center justify-center p-6 bg-white border border-border rounded-sm hover:shadow-md transition-all cursor-pointer group ${brand.color}`}
           >
             <img 
-              src={brand.logo} 
+              src={imgErrors[brand.name] ? (brand.fallback || `https://placehold.co/200x80/ffffff/333333.png?text=${brand.name}`) : brand.logo} 
               alt={`Logotipo de ${brand.name}`} 
+              onError={() => setImgErrors(prev => ({...prev, [brand.name]: true}))}
               className="h-10 md:h-12 w-auto object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
             />
           </div>
