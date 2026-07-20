@@ -1,8 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { ShoppingCart, Search, User, Menu, Phone, HelpCircle } from 'lucide-react';
+import { auth } from '@/auth';
+import LogoutButton from '@/components/layout/logout-button';
 
-export default function ShopLayout({ children }: { children: React.ReactNode }) {
+export default async function ShopLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+
   return (
     <div className="flex flex-col min-h-screen w-full">
       
@@ -14,8 +18,17 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
             <span className="flex items-center gap-1"><HelpCircle className="h-3 w-3" /> Ayuda y Soporte</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/auth/login" className="hover:underline">Iniciar Sesión</Link>
-            <Link href="/auth/register" className="hover:underline">Crear Cuenta</Link>
+            {session?.user ? (
+              <>
+                <span className="text-muted-foreground">Hola, <b>{session.user.name?.split(' ')[0]}</b></span>
+                <LogoutButton variant="text" />
+              </>
+            ) : (
+              <>
+                <Link href="/auth/login" className="hover:underline">Iniciar Sesión</Link>
+                <Link href="/auth/register" className="hover:underline">Crear Cuenta</Link>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { LayoutDashboard, Truck, Settings, Package, Users, MonitorPlay } from 'lucide-react';
+import LogoutButton from '@/components/layout/logout-button';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -36,6 +37,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 Ventas en Piso (POS)
               </Link>
             </nav>
+          </div>
+          <div className="mt-auto p-4 border-t border-border">
+             <LogoutButton variant="sidebar" />
           </div>
         </div>
       </div>
