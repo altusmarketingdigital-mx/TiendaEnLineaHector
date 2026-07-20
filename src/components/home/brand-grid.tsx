@@ -3,10 +3,10 @@ import React from 'react';
 const brands = [
   { name: 'NVIDIA', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg', color: 'hover:border-[#76b900]' },
   { name: 'AMD', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/AMD_Logo.svg', color: 'hover:border-[#ed1c24]' },
-  { name: 'INTEL', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c9/Intel-logo.svg', color: 'hover:border-[#0071c5]' },
+  { name: 'INTEL', logo: 'https://cdn.worldvectorlogo.com/logos/intel-3.svg', color: 'hover:border-[#0071c5]' },
   { name: 'ASUS', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2e/ASUS_Logo.svg', color: 'hover:border-[#00539b]' },
-  { name: 'CORSAIR', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/07/Corsair_logo.svg', color: 'hover:border-[#ffcc00]' },
-  { name: 'MSI', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b1/MSI_Logo.svg', color: 'hover:border-[#ed1c24]' }
+  { name: 'CORSAIR', logo: 'https://cdn.worldvectorlogo.com/logos/corsair-1.svg', color: 'hover:border-[#ffcc00]' },
+  { name: 'MSI', logo: 'https://cdn.worldvectorlogo.com/logos/msi-3.svg', color: 'hover:border-[#ed1c24]' }
 ];
 
 export default function BrandGrid() {
