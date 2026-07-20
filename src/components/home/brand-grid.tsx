@@ -27,7 +27,7 @@ export default function BrandGrid() {
               src={imgErrors[brand.name] ? (brand.fallback || `https://placehold.co/200x80/ffffff/333333.png?text=${brand.name}`) : brand.logo} 
               alt={`Logotipo de ${brand.name}`} 
               onError={() => setImgErrors(prev => ({...prev, [brand.name]: true}))}
-              className="h-10 md:h-12 w-auto object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+              className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
           </div>
         ))}
