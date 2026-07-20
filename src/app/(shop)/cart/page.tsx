@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from 'react';
-import { Trash2, ShieldCheck, CreditCard, Banknote, Loader2, AlertCircle, Cpu } from 'lucide-react';
+import { Trash2, ArrowRight, ShieldCheck, CreditCard, Banknote, Loader2, AlertCircle } from 'lucide-react';
 import { createCheckoutSession, type CheckoutItem } from '@/lib/actions/checkout';
 import Link from 'next/link';
 
@@ -56,73 +56,64 @@ export default function CartPage() {
   };
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6 relative">
-      {/* Background Grid */}
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] pointer-events-none"></div>
-
-      <h1 className="text-3xl font-black text-white text-glow mb-8 flex items-center gap-3 relative z-10">
-        <Cpu className="h-8 w-8 text-primary" /> MÓDULO DE PAGO
-      </h1>
+    <div className="container mx-auto py-8 px-4 md:px-6">
+      <h1 className="text-2xl font-bold text-secondary border-b pb-4 mb-6">Mi Carrito de Compras</h1>
 
       {error && (
-        <div className="flex items-center gap-3 p-4 mb-6 rounded-lg bg-red-950/50 text-red-400 border border-red-900/50 font-bold text-sm shadow-[0_0_15px_rgba(255,0,0,0.2)]">
+        <div className="flex items-center gap-3 p-4 mb-6 rounded-sm bg-destructive/10 text-destructive border border-destructive/20 font-semibold text-sm">
           <AlertCircle className="h-5 w-5 shrink-0" /> {error}
         </div>
       )}
 
-      <div className="flex flex-col lg:flex-row gap-8 relative z-10">
+      <div className="flex flex-col lg:flex-row gap-6">
         {/* Cart Items */}
         <div className="lg:w-2/3 flex flex-col gap-4">
           {cart.length === 0 ? (
-            <div className="bg-card/50 backdrop-blur-md border border-border shadow-2xl rounded-2xl text-center py-24 text-muted-foreground">
-              <p className="text-2xl font-black text-white mb-4">MÓDULO VACÍO</p>
-              <Link href="/catalog" className="inline-block px-8 py-3 bg-primary text-black rounded-lg font-black hover:bg-primary/90 transition-colors shadow-[0_0_15px_rgba(0,240,255,0.4)] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)]">
-                EXPLORAR SISTEMA
+            <div className="bg-white border shadow-sm rounded-sm text-center py-20 text-muted-foreground">
+              <p className="text-xl font-bold mb-4">Tu carrito está vacío</p>
+              <Link href="/catalog" className="inline-block px-6 py-2 bg-primary text-primary-foreground rounded-sm font-bold hover:bg-primary/90 transition-colors">
+                Seguir comprando
               </Link>
             </div>
           ) : (
-            <div className="bg-card/80 backdrop-blur-md border border-border rounded-2xl flex flex-col shadow-2xl">
-              {cart.map((item, i) => (
-                <div key={item.productId} className={`p-6 flex flex-col md:flex-row gap-6 items-start md:items-center relative group overflow-hidden ${i !== cart.length - 1 ? 'border-b border-border/50' : ''}`}>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  
-                  <div className="h-24 w-24 bg-background border border-primary/20 rounded-xl flex items-center justify-center font-black text-muted-foreground/30 text-xs uppercase shrink-0 shadow-inner relative">
-                    <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,240,255,0.05)] rounded-xl"></div>
-                    {item.category ?? 'HW'}
+            <div className="bg-white border shadow-sm rounded-sm flex flex-col divide-y">
+              {cart.map(item => (
+                <div key={item.productId} className="p-4 flex flex-col md:flex-row gap-4 items-start md:items-center">
+                  <div className="h-20 w-20 bg-muted/20 border flex items-center justify-center font-bold text-muted-foreground/30 text-xs uppercase shrink-0">
+                    {item.category ?? 'SKU'}
                   </div>
-                  
-                  <div className="flex-1 flex flex-col md:flex-row justify-between w-full gap-6 relative z-10">
+                  <div className="flex-1 flex flex-col md:flex-row justify-between w-full gap-4">
                     <div className="flex flex-col">
-                      <Link href={`/catalog/${item.productId}`} className="font-bold text-white hover:text-primary transition-colors leading-tight max-w-md text-glow">
+                      <Link href={`/catalog/${item.productId}`} className="font-semibold text-sm text-secondary hover:text-primary transition-colors leading-snug max-w-md">
                         {item.name}
                       </Link>
-                      <span className="text-xs text-muted-foreground mt-2 font-mono bg-background/50 w-fit px-2 py-1 rounded border border-border">UID: {item.productId}</span>
+                      <span className="text-xs text-muted-foreground mt-1">ID: {item.productId}</span>
+                      <span className="text-xs text-green-600 font-semibold mt-1">Disponible en bodega principal</span>
                     </div>
-                    
-                    <div className="flex flex-col md:flex-row items-end md:items-center gap-8 md:w-auto w-full justify-between md:justify-end">
+                    <div className="flex flex-col md:flex-row items-end md:items-center gap-6 md:w-auto w-full justify-between md:justify-end">
                       <div className="flex flex-col text-right">
-                        <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Valor</span>
-                        <span className="font-black text-xl text-white">${item.price.toFixed(2)}</span>
+                        <span className="text-xs text-muted-foreground">Precio Unitario</span>
+                        <span className="font-bold text-lg">${item.price.toFixed(2)}</span>
                       </div>
                       
-                      <div className="flex items-center gap-4">
-                        <div className="flex items-center border border-primary/30 rounded-lg bg-background overflow-hidden shadow-[0_0_10px_rgba(0,240,255,0.1)]">
-                          <button onClick={() => updateQty(item.productId, -1)} className="px-4 py-2 hover:bg-primary/20 text-white font-black transition-colors">−</button>
-                          <span className="font-black text-primary text-base w-8 text-center">{item.quantity}</span>
-                          <button onClick={() => updateQty(item.productId, 1)} className="px-4 py-2 hover:bg-primary/20 text-white font-black transition-colors">+</button>
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center border rounded-sm bg-white">
+                          <button onClick={() => updateQty(item.productId, -1)} className="px-3 py-1 hover:bg-muted text-secondary font-bold transition-colors">−</button>
+                          <span className="font-bold text-sm w-6 text-center border-x py-1">{item.quantity}</span>
+                          <button onClick={() => updateQty(item.productId, 1)} className="px-3 py-1 hover:bg-muted text-secondary font-bold transition-colors">+</button>
                         </div>
                         <button
                           onClick={() => updateQty(item.productId, -item.quantity)}
-                          className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors border border-transparent hover:border-red-500/30"
+                          className="p-1.5 text-muted-foreground hover:text-destructive transition-colors ml-2"
                           title="Eliminar"
                         >
                           <Trash2 className="h-5 w-5" />
                         </button>
                       </div>
 
-                      <div className="flex flex-col text-right w-28">
-                        <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Subtotal</span>
-                        <span className="font-black text-2xl text-primary text-glow">${(item.price * item.quantity).toFixed(2)}</span>
+                      <div className="flex flex-col text-right w-24">
+                        <span className="text-xs text-muted-foreground">Subtotal</span>
+                        <span className="font-bold text-xl text-destructive">${(item.price * item.quantity).toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -130,70 +121,81 @@ export default function CartPage() {
               ))}
             </div>
           )}
+          
+          {cart.length > 0 && (
+            <div className="flex justify-between items-center bg-white border shadow-sm rounded-sm p-4">
+               <Link href="/catalog" className="text-primary font-semibold hover:underline text-sm">
+                 ← Continuar comprando
+               </Link>
+               <button
+                 onClick={() => setCart([])}
+                 className="text-xs text-muted-foreground hover:text-destructive hover:underline"
+               >
+                 Vaciar Carrito
+               </button>
+            </div>
+          )}
         </div>
 
         {/* Order Summary + Checkout */}
         <div className="lg:w-1/3">
-          <div className="bg-card/80 backdrop-blur-md border border-border shadow-2xl rounded-2xl p-6 sticky top-28 relative overflow-hidden">
-            {/* Glowing accents */}
-            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-primary to-secondary"></div>
-            
-            <h2 className="text-sm font-black text-white mb-6 uppercase tracking-widest border-b border-border/50 pb-4 flex items-center justify-between">
-              Resumen de Datos
-              <div className="h-2 w-2 bg-primary rounded-full shadow-[0_0_10px_rgba(0,240,255,1)] animate-pulse"></div>
-            </h2>
+          <div className="bg-white border shadow-sm rounded-sm p-6 sticky top-24">
+            <h2 className="text-lg font-bold mb-4 border-b pb-2 text-secondary">Resumen de tu pedido</h2>
 
-            <div className="flex flex-col gap-4 mb-8 text-sm font-medium">
-              <div className="flex justify-between items-center text-muted-foreground">
-                <span>Subtotal (sin IVA):</span>
-                <span className="text-white font-mono">${subtotal.toFixed(2)}</span>
+            <div className="flex flex-col gap-3 mb-6 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Subtotal (sin IVA):</span>
+                <span className="font-semibold">${subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between items-center text-muted-foreground">
-                <span>IVA (16%):</span>
-                <span className="text-white font-mono">${taxes.toFixed(2)}</span>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">IVA (16%):</span>
+                <span className="font-semibold">${taxes.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between items-center text-primary border-b border-border/50 pb-6">
-                <span className="font-bold">Logística de Red:</span>
-                <span className="font-black bg-primary/10 px-2 py-1 rounded border border-primary/20">ESTABLE (GRATIS)</span>
+              <div className="flex justify-between text-green-600 font-semibold border-b pb-4">
+                <span>Costo de envío:</span>
+                <span>$0.00 (Gratis)</span>
               </div>
-              
               <div className="flex justify-between items-end pt-2">
-                <span className="font-black text-muted-foreground uppercase tracking-wider text-xs">Total de Créditos:</span>
-                <span className="text-4xl font-black text-white text-glow tracking-tighter">
+                <span className="font-bold text-secondary text-base">Total a pagar:</span>
+                <span className="text-3xl font-black text-destructive tracking-tight">
                   ${total.toFixed(2)}
                 </span>
               </div>
             </div>
 
-            {/* Main CTA: Cyberpunk Checkout */}
+            {/* Main CTA: Checkout Pro */}
             <button
               onClick={handleCheckout}
               disabled={isPending || cart.length === 0}
-              className="w-full relative py-4 bg-transparent border border-primary/50 rounded-lg flex items-center justify-center gap-3 font-black text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase group/btn overflow-hidden mb-6"
+              className="w-full py-3 bg-[#f26522] hover:bg-[#e05512] text-white rounded-sm font-bold flex items-center justify-center gap-2 shadow-sm transition-colors text-lg mb-4 disabled:opacity-60 disabled:cursor-not-allowed uppercase"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-20 group-hover/btn:opacity-40 transition-opacity blur"></div>
-              <div className="absolute inset-0 bg-primary/10 group-hover/btn:bg-primary/20 transition-colors"></div>
-              
               {isPending ? (
-                <><Loader2 className="h-5 w-5 animate-spin text-primary relative z-10" /> <span className="text-white relative z-10">Sincronizando...</span></>
+                <><Loader2 className="h-5 w-5 animate-spin" /> Procesando...</>
               ) : (
-                <><span className="text-primary text-glow relative z-10">&gt; EJECUTAR TRANSACCIÓN</span></>
+                <><ArrowRight className="h-5 w-5" /> Proceder al pago</>
               )}
             </button>
             
-            <div className="bg-background/50 border border-muted rounded-lg p-4">
-              <p className="text-[10px] text-center text-muted-foreground font-bold uppercase tracking-widest mb-3">Protocolos Activos</p>
-              <div className="flex justify-center gap-3">
-                <div className="bg-card px-3 py-1.5 rounded border border-border text-[9px] font-black text-muted-foreground uppercase tracking-widest">VISA</div>
-                <div className="bg-card px-3 py-1.5 rounded border border-border text-[9px] font-black text-muted-foreground uppercase tracking-widest">MASTER</div>
-                <div className="bg-card px-3 py-1.5 rounded border border-border text-[9px] font-black text-muted-foreground uppercase tracking-widest">SPEI</div>
+            {/* Payment Method Icons (Mercado Pago style info) */}
+            <div className="bg-blue-50 border border-blue-100 rounded-sm p-3 mb-6">
+              <p className="text-xs text-center text-blue-800 font-semibold mb-2">Paga seguro con Mercado Pago</p>
+              <div className="flex justify-center gap-2">
+                <div className="bg-white px-2 py-1 rounded border text-[10px] font-bold text-slate-600">VISA</div>
+                <div className="bg-white px-2 py-1 rounded border text-[10px] font-bold text-slate-600">MASTERCARD</div>
+                <div className="bg-white px-2 py-1 rounded border text-[10px] font-bold text-slate-600">SPEI</div>
+                <div className="bg-white px-2 py-1 rounded border text-[10px] font-bold text-slate-600">OXXO</div>
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 pt-6 mt-6 border-t border-border/50 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-              <div className="flex items-center gap-2 text-primary">
-                <ShieldCheck className="h-4 w-4" />
-                <span>Cifrado Cuántico SSL Activo</span>
+            {/* Security Footer */}
+            <div className="flex flex-col gap-2 pt-4 border-t text-xs text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-green-600" />
+                <span>Compra Segura - Cifrado SSL 256 bits</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <ArrowRight className="h-4 w-4" />
+                <span>Devoluciones en los primeros 30 días</span>
               </div>
             </div>
           </div>
