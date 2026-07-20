@@ -1,5 +1,6 @@
 import React from 'react';
-import { Calculator, User } from 'lucide-react';
+import Link from 'next/link';
+import { Calculator, User, LayoutDashboard } from 'lucide-react';
 
 export default function POSLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,11 +11,17 @@ export default function POSLayout({ children }: { children: React.ReactNode }) {
           <Calculator className="h-6 w-6" />
           <span>TECH.POS</span>
         </div>
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <div className="px-3 py-1 rounded-full bg-secondary text-secondary-foreground font-medium">Caja 01</div>
-          <div className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            <span>Operador Activo</span>
+        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+          <Link href="/dashboard" className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-accent/10 hover:text-accent transition-colors font-semibold">
+            <LayoutDashboard className="h-4 w-4" />
+            Volver al Dashboard
+          </Link>
+          <div className="flex items-center gap-4">
+            <div className="px-3 py-1 rounded-full bg-secondary text-secondary-foreground font-medium">Caja 01</div>
+            <div className="flex items-center gap-2">
+              <User className="h-4 w-4" />
+              <span>Operador Activo</span>
+            </div>
           </div>
         </div>
       </header>
