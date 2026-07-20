@@ -1,2 +1,4 @@
-// Route handler for Auth.js — mounts GET/POST at /api/auth/[...nextauth]
-export { handlers as GET, handlers as POST } from '@/auth';
+import { handlers } from '@/auth';
+
+export const GET = handlers.GET as any;
+export const POST = handlers.POST as any;
