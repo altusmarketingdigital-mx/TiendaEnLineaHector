@@ -8,7 +8,7 @@ type Product = {
   id: number;
   name: string;
   price: string;
-  specs: Record<string, unknown> | null;
+  specs: unknown;
   stockQuantity: number;
 };
 
