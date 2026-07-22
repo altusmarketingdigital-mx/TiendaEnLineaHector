@@ -12,7 +12,7 @@ export type ShipmentWithSale = {
   trackingNumber: string | null;
   carrier: string | null;
   status: string;
-  address: any;
+  address: Record<string, unknown>;
   updatedAt: Date | null;
   userEmail: string | null;
   userName: string | null;
@@ -67,7 +67,7 @@ export async function updateShipmentStatus(
 
     if (!rows.length) return { success: false, error: 'Envío no encontrado.' };
 
-    const { saleId, userName, userEmail } = rows[0];
+    const { saleId, userName } = rows[0];
 
     // 2. Update status in Neon
     await db.update(shipments)

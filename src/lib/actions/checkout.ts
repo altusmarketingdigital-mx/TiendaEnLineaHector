@@ -31,7 +31,7 @@ type CheckoutResult =
  */
 export async function createCheckoutSession(items: CheckoutItem[]): Promise<CheckoutResult> {
   const session = await auth();
-  const userId = session?.user ? Number((session.user as any).id) : null;
+  const userId = session?.user ? Number((session.user as { id?: string }).id) : null;
 
   // 1. Reserve stock to block concurrent POS/web purchases
   const reserveItems: ReserveItem[] = items.map(i => ({
@@ -84,7 +84,7 @@ export async function createCheckoutSession(items: CheckoutItem[]): Promise<Chec
     }
 
     return { success: true, checkoutUrl };
-  } catch (err: any) {
+  } catch (err: unknown) {
     // If MP fails for any reason, release the reservation immediately
     await releaseStock(reserveItems);
 

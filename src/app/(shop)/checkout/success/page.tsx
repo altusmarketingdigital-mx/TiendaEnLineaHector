@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 
 export default function CheckoutSuccessPage() {
@@ -14,12 +15,12 @@ export default function CheckoutSuccessPage() {
         </p>
       </div>
       <div className="flex gap-4">
-        <a href="/profile" className="px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/30">
+        <Link href="/profile" className="px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/30">
           Ver Mis Órdenes
-        </a>
-        <a href="/catalog" className="px-6 py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-secondary/80 transition-all hover:scale-105 active:scale-95">
+        </Link>
+        <Link href="/catalog" className="px-6 py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-secondary/80 transition-all hover:scale-105 active:scale-95">
           Seguir Comprando
-        </a>
+        </Link>
       </div>
     </div>
   );

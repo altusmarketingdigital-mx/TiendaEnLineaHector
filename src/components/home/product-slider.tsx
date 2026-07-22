@@ -1,6 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingCart, Star } from 'lucide-react';
+
+type ProductSpecs = {
+  category?: string;
+  [key: string]: unknown;
+};
 
 type Product = {
   id: number;
@@ -8,7 +14,7 @@ type Product = {
   name: string;
   price: string;
   images: string[] | null;
-  specs: any;
+  specs: ProductSpecs | null;
   stockQuantity: number;
   reservedQuantity: number;
 };
@@ -29,7 +35,7 @@ export default function ProductSlider({ title, products }: { title: string, prod
       <div className="flex overflow-x-auto gap-4 pb-6 pt-2 snap-x snap-mandatory scroll-small -mx-4 px-4 md:mx-0 md:px-0">
         {products.map(product => {
           const available = product.stockQuantity - product.reservedQuantity;
-          const category = (product.specs as any)?.category ?? 'Componente';
+          const category = product.specs?.category ?? 'Componente';
           
           return (
             <div key={product.id} className="min-w-[260px] max-w-[260px] snap-start shrink-0 bg-white border border-border rounded-sm flex flex-col hover:shadow-lg transition-shadow overflow-hidden group">
@@ -37,7 +43,14 @@ export default function ProductSlider({ title, products }: { title: string, prod
                 {/* Product Image */}
                 <div className="aspect-square p-4 flex items-center justify-center bg-white relative">
                   {product.images?.[0] ? (
-                    <img src={product.images[0]} alt={product.name} className="object-contain w-full h-full mix-blend-multiply" />
+                    <Image
+                      src={product.images[0]}
+                      alt={product.name}
+                      fill
+                      className="object-contain mix-blend-multiply p-4"
+                      sizes="260px"
+                      unoptimized
+                    />
                   ) : (
                     <div className="font-bold text-muted-foreground/20 text-3xl uppercase text-center">
                       {category}

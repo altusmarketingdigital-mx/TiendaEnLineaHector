@@ -23,7 +23,7 @@ export default function Testimonials() {
                 <Star className="w-4 h-4 fill-current" />
                 <Star className="w-4 h-4 fill-current" />
               </div>
-              <p className="text-sm text-foreground mb-4 italic">"{rev.text}"</p>
+              <p className="text-sm text-foreground mb-4 italic">&ldquo;{rev.text}&rdquo;</p>
             </div>
             <div className="flex justify-between items-center text-xs text-muted-foreground border-t border-border pt-4 mt-auto">
               <span className="font-bold">{rev.name}</span>

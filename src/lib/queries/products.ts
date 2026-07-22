@@ -1,6 +1,6 @@
 import { db } from '@/lib/db';
-import { products, inventory, categories } from '@/db/schema';
-import { eq, and, gt, ilike } from 'drizzle-orm';
+import { products, inventory } from '@/db/schema';
+import { eq, gt } from 'drizzle-orm';
 
 export type ProductWithInventory = {
   id: number;
@@ -9,7 +9,7 @@ export type ProductWithInventory = {
   description: string | null;
   price: string;
   categoryId: number | null;
-  specs: any;
+  specs: Record<string, unknown> | null;
   images: string[] | null;
   createdAt: Date | null;
   stockQuantity: number;

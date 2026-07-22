@@ -6,7 +6,9 @@ const PROTECTED_ADMIN_ROUTES = ['/dashboard'];
 const PROTECTED_POS_ROUTES = ['/pos'];
 const AUTH_ROUTES = ['/auth/login', '/auth/register'];
 
-export default auth((req: NextRequest & { auth: any }) => {
+type AuthSession = { user?: { role?: string; id?: string } } | null;
+
+export default auth((req: NextRequest & { auth: AuthSession }) => {
   const { pathname } = req.nextUrl;
   const session = req.auth;
   const role = session?.user?.role;

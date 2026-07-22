@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { XCircle } from 'lucide-react';
 
 export default function CheckoutFailurePage() {
@@ -14,12 +15,12 @@ export default function CheckoutFailurePage() {
         </p>
       </div>
       <div className="flex gap-4">
-        <a href="/cart" className="px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/30">
+        <Link href="/cart" className="px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/30">
           Volver al Carrito
-        </a>
-        <a href="/catalog" className="px-6 py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-secondary/80 transition-all hover:scale-105 active:scale-95">
+        </Link>
+        <Link href="/catalog" className="px-6 py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-secondary/80 transition-all hover:scale-105 active:scale-95">
           Explorar Catálogo
-        </a>
+        </Link>
       </div>
     </div>
   );

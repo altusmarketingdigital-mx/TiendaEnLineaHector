@@ -1,8 +1,10 @@
 import React from 'react';
+import Link from 'next/link';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { getOrderHistory } from '@/lib/queries/orders';
 import { User, ShoppingBag, Package, Calendar, CreditCard, Globe, Monitor } from 'lucide-react';
+
 
 export const metadata = {
   title: 'Mi Perfil - TECH.STORE',
@@ -85,9 +87,9 @@ export default async function ProfilePage() {
             <Package className="h-16 w-16 mx-auto mb-4 opacity-30" />
             <p className="text-xl font-bold mb-2">Aún no tienes compras</p>
             <p className="text-sm opacity-70">Explora nuestro catálogo para hacer tu primera compra.</p>
-            <a href="/catalog" className="inline-block mt-6 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95">
+            <Link href="/catalog" className="inline-block mt-6 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95">
               Ir al Catálogo
-            </a>
+            </Link>
           </div>
         ) : (
           <div className="flex flex-col gap-6">

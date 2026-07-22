@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -53,7 +54,15 @@ export default function HeroCarousel() {
           className="absolute inset-0"
         >
           <div className={`absolute inset-0 bg-gradient-to-r ${slides[current].color} opacity-80 z-10 mix-blend-multiply`} />
-          <img src={slides[current].image} alt={slides[current].title} className="w-full h-full object-cover" />
+          <Image
+            src={slides[current].image}
+            alt={slides[current].title}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority={current === 0}
+            unoptimized
+          />
           
           <div className="absolute inset-0 z-20 flex flex-col justify-center px-12 md:px-24">
             <motion.h2 

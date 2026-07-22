@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState, useTransition } from 'react';
-import { Plus, Trash2, Package, ChevronDown, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, Package, Loader2, CheckCircle2, AlertCircle, Upload, FileSpreadsheet } from 'lucide-react';
 import { createProduct, deleteProduct, type CreateProductInput } from '@/lib/actions/admin';
 
 type Product = {
   id: number;
   name: string;
   price: string;
-  specs: any;
+  specs: Record<string, unknown> | null;
   stockQuantity: number;
 };
 
@@ -26,6 +26,9 @@ const SPEC_TEMPLATES: Record<string, Record<string, string>> = {
 export default function CatalogAdmin({ products: initialProducts }: Props) {
   const [products, setProducts] = useState(initialProducts);
   const [showForm, setShowForm] = useState(false);
+  const [showCsvModal, setShowCsvModal] = useState(false);
+  const [csvFile, setCsvFile] = useState<File | null>(null);
+  const [csvLoading, setCsvLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
 
@@ -47,7 +50,7 @@ export default function CatalogAdmin({ products: initialProducts }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    let parsedSpecs: Record<string, any> = {};
+    let parsedSpecs: Record<string, unknown> = {};
     try { parsedSpecs = JSON.parse(form.specs); } catch {
       showToast('error', 'Las especificaciones (JSON) no tienen formato válido.'); return;
     }
@@ -81,6 +84,30 @@ export default function CatalogAdmin({ products: initialProducts }: Props) {
     });
   };
 
+  const handleCsvImport = async () => {
+    if (!csvFile) return;
+    setCsvLoading(true);
+    const fd = new FormData();
+    fd.append('file', csvFile);
+    try {
+      const res = await fetch('/api/catalog/import', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (res.ok) {
+        showToast('success', data.message);
+        setShowCsvModal(false);
+        setCsvFile(null);
+        // Reload page to refresh product list
+        window.location.reload();
+      } else {
+        showToast('error', data.error ?? 'Error al importar CSV.');
+      }
+    } catch {
+      showToast('error', 'No se pudo conectar con el servidor.');
+    } finally {
+      setCsvLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-8 w-full max-w-6xl mx-auto">
       {/* Toast */}
@@ -97,11 +124,46 @@ export default function CatalogAdmin({ products: initialProducts }: Props) {
           <h2 className="text-3xl font-extrabold tracking-tight">Gestión de Catálogo</h2>
           <p className="text-muted-foreground mt-1">{products.length} productos en la base de datos</p>
         </div>
-        <button onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-2xl font-bold shadow-lg hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all">
-          <Plus className="h-5 w-5" /> Agregar Producto
-        </button>
+        <div className="flex items-center gap-3">
+          <button onClick={() => setShowCsvModal(true)}
+            className="flex items-center gap-2 px-5 py-3 border-2 border-primary text-primary rounded-2xl font-bold hover:bg-primary/10 hover:scale-105 active:scale-95 transition-all">
+            <FileSpreadsheet className="h-5 w-5" /> Importar CSV
+          </button>
+          <button onClick={() => setShowForm(!showForm)}
+            className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-2xl font-bold shadow-lg hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all">
+            <Plus className="h-5 w-5" /> Agregar Producto
+          </button>
+        </div>
       </div>
+
+      {/* CSV Import Modal */}
+      {showCsvModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-card border rounded-3xl p-8 w-full max-w-md shadow-2xl flex flex-col gap-6">
+            <div>
+              <h3 className="text-2xl font-extrabold tracking-tight">Importar Productos CSV</h3>
+              <p className="text-sm text-muted-foreground mt-1">El archivo debe tener los encabezados:<br/><code className="text-xs bg-muted px-2 py-1 rounded">name, slug, price, categoryName, stockQuantity, description, images</code></p>
+              <p className="text-xs text-muted-foreground mt-2">Separa múltiples imágenes con <code>|</code></p>
+            </div>
+            <label className="flex flex-col items-center justify-center border-2 border-dashed border-primary/40 rounded-2xl p-8 cursor-pointer hover:border-primary transition-colors gap-3">
+              <Upload className="h-8 w-8 text-primary/60" />
+              <span className="text-sm font-semibold">{csvFile ? csvFile.name : 'Haz clic para seleccionar un archivo .csv'}</span>
+              <input type="file" accept=".csv" className="hidden" onChange={e => setCsvFile(e.target.files?.[0] ?? null)} />
+            </label>
+            <div className="flex gap-3">
+              <button onClick={() => { setShowCsvModal(false); setCsvFile(null); }}
+                className="flex-1 px-4 py-3 border rounded-2xl font-bold hover:bg-muted transition-colors">
+                Cancelar
+              </button>
+              <button onClick={handleCsvImport} disabled={!csvFile || csvLoading}
+                className="flex-1 px-4 py-3 bg-primary text-primary-foreground rounded-2xl font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                {csvLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                {csvLoading ? 'Importando...' : 'Importar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* New Product Form */}
       {showForm && (

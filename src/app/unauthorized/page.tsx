@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { ShieldX } from 'lucide-react';
 
 export default function UnauthorizedPage() {
@@ -13,9 +14,9 @@ export default function UnauthorizedPage() {
           No tienes los permisos necesarios para acceder a esta sección.
           Contacta a un Administrador si crees que esto es un error.
         </p>
-        <a href="/" className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg">
+        <Link href="/" className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg">
           Volver al Inicio
-        </a>
+        </Link>
       </div>
     </div>
   );
