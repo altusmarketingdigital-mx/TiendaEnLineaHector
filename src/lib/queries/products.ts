@@ -9,7 +9,7 @@ export type ProductWithInventory = {
   description: string | null;
   price: string;
   categoryId: number | null;
-  specs: Record<string, unknown> | null;
+  specs: unknown;
   images: string[] | null;
   createdAt: Date | null;
   stockQuantity: number;
