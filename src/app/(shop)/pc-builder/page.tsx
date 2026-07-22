@@ -11,7 +11,7 @@ export default async function PCBuilderPage() {
 
   // Group products by their `specs.category` field
   const productsByCategory = products.reduce<Record<string, typeof products>>((acc, p) => {
-    const cat = (p.specs as any)?.category ?? 'Otros';
+    const cat = ((p.specs as Record<string, unknown>)?.category as string) ?? 'Otros';
     if (!acc[cat]) acc[cat] = [];
     acc[cat].push(p);
     return acc;

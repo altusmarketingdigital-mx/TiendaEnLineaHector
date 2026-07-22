@@ -30,7 +30,7 @@ export default function ProductSlider({ title, products }: { title: string, prod
       <div className="flex overflow-x-auto gap-4 pb-6 pt-2 snap-x snap-mandatory scroll-small -mx-4 px-4 md:mx-0 md:px-0">
         {products.map(product => {
           const available = product.stockQuantity - product.reservedQuantity;
-          const category = product.specs?.category ?? 'Componente';
+          const category = ((product.specs as Record<string, unknown>)?.category as string) ?? 'Componente';
           
           return (
             <div key={product.id} className="min-w-[260px] max-w-[260px] snap-start shrink-0 bg-white border border-border rounded-sm flex flex-col hover:shadow-lg transition-shadow overflow-hidden group">

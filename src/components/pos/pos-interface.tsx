@@ -119,7 +119,7 @@ export default function POSInterface({ products }: Props) {
                       ${available > 0 ? 'cursor-pointer hover:border-primary hover:shadow-lg active:scale-95' : 'opacity-50 cursor-not-allowed'}`}
                   >
                     <div className="aspect-square bg-muted/50 rounded-2xl flex items-center justify-center">
-                      <span className="text-muted-foreground/40 font-bold text-2xl">{specs?.category ?? 'SKU'}</span>
+                      <span className="text-muted-foreground/40 font-bold text-2xl">{((specs as Record<string, unknown>)?.category as string) ?? 'SKU'}</span>
                     </div>
                     <div className="flex flex-col flex-1 justify-between">
                       <h3 className="font-semibold text-sm line-clamp-2 leading-snug mb-3">{product.name}</h3>

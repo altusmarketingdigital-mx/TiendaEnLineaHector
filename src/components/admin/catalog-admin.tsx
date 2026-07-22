@@ -262,7 +262,7 @@ export default function CatalogAdmin({ products: initialProducts }: Props) {
                 </td>
                 <td className="p-5">
                   <span className="text-xs font-bold uppercase tracking-wider bg-muted px-3 py-1.5 rounded-full">
-                    {(p.specs as any)?.category ?? '—'}
+                    {((p.specs as Record<string, unknown>)?.category as string) ?? '—'}
                   </span>
                 </td>
                 <td className="p-5 text-right font-bold">${Number(p.price).toFixed(2)}</td>
