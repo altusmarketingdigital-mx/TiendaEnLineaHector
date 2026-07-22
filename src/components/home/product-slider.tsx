@@ -3,18 +3,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ShoppingCart, Star } from 'lucide-react';
 
-type ProductSpecs = {
-  category?: string;
-  [key: string]: unknown;
-};
-
 type Product = {
   id: number;
   slug: string;
   name: string;
   price: string;
   images: string[] | null;
-  specs: ProductSpecs | null;
+  specs: unknown;
   stockQuantity: number;
   reservedQuantity: number;
 };
